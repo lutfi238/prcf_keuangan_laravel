@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,11 +25,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'nama' => fake()->name(), // DB uses 'nama' not 'name'
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => UserRole::ProjectManager->value, // Default role
+            'status' => 'active', // Default status
+            'no_HP' => fake()->phoneNumber(),
         ];
     }
 
@@ -39,6 +43,66 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Set user role to Admin
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Admin->value,
+        ]);
+    }
+
+    /**
+     * Set user role to Finance Manager
+     */
+    public function financeManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::FinanceManager->value,
+        ]);
+    }
+
+    /**
+     * Set user role to Project Manager
+     */
+    public function projectManager(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::ProjectManager->value,
+        ]);
+    }
+
+    /**
+     * Set user role to Staff Accountant
+     */
+    public function staffAccountant(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::StaffAccountant->value,
+        ]);
+    }
+
+    /**
+     * Set status to pending
+     */
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
+     * Set status to inactive
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'inactive',
         ]);
     }
 }

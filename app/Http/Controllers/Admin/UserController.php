@@ -98,6 +98,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        // GAP-005 FIX: Self-edit protection (sesuai PHP native manage_users.php:62-65)
+        if ($user->id_user === auth()->id()) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'Tidak dapat mengubah akun Anda sendiri. Gunakan halaman profil untuk mengubah data diri.');
+        }
+
         return view('admin.users.form', [
             'user' => $user,
             'roles' => UserRole::cases(),
@@ -109,6 +115,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // GAP-005 FIX: Self-edit protection (sesuai PHP native manage_users.php:62-65)
+        if ($user->id_user === auth()->id()) {
+            return back()->with('error', 'Tidak dapat mengubah akun Anda sendiri. Gunakan halaman profil untuk mengubah data diri.');
+        }
+
         $rules = [
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id_user . ',id_user',

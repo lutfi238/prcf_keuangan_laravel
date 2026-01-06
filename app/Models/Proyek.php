@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Enums\ProjectStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Proyek extends Model
 {
+    use HasFactory;
+
     protected $table = 'proyek';
     protected $primaryKey = 'kode_proyek';
     public $incrementing = false;

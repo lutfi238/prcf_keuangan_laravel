@@ -6,6 +6,7 @@ use App\Models\BukuBankDetail;
 use App\Models\BukuBankHeader;
 use App\Models\BukuPiutangDetail;
 use App\Models\BukuPiutangHeader;
+use App\Models\BukuPiutangUnliquidated;
 use App\Models\ProjectCodeBudget;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class ProposalSettlementService
             'budget_updates' => [],
             'bank_entries' => [],
             'receivable_entries' => [],
+            'unliquidated_entries' => [],
             'errors' => [],
         ];
 
@@ -85,7 +87,7 @@ class ProposalSettlementService
                     'debit_usd' => 0,
                     'credit_idr' => $amountIdr,
                     'credit_usd' => $amountUsd,
-                    'status' => 'approved',
+                    'status' => 'ongoing',  // Values: ongoing, final (approved not valid)
                 ]);
 
                 // Update bank header balance (credit = money out)
@@ -98,10 +100,13 @@ class ProposalSettlementService
                 ];
 
                 // 3. Create Receivable detail entry (PM owes = debit)
+                // Generate voucher number format: YYYY/MM/PROJ/001 (sesuai PHP native)
+                $voucherNo = $this->generateVoucherNo($proposal->kode_proyek, $receivableHeader->id_piutang);
+                
                 $receivableDetail = BukuPiutangDetail::create([
                     'id_piutang' => $receivableHeader->id_piutang,
                     'tgl_trx' => $today,
-                    'reff' => 'PRO-' . $proposal->id_proposal,
+                    'reff' => $voucherNo,
                     'description' => 'Piutang pencairan: ' . $proposal->judul_proposal,
                     'recipient' => $proposal->pemohon,
                     'p_code' => $detail->place_code,
@@ -120,6 +125,27 @@ class ProposalSettlementService
                     'id' => $receivableDetail->id_detail_piutang,
                     'debit_idr' => $amountIdr,
                     'debit_usd' => $amountUsd,
+                    'voucher_no' => $voucherNo,
+                ];
+
+                // 4. Create Unliquidated entry (tracking piutang belum lunas)
+                // GAP-001 FIX: Menyamakan dengan PHP native review_proposal_fm.php:102-109
+                $unliquidatedEntry = BukuPiutangUnliquidated::create([
+                    'id_piutang' => $receivableHeader->id_piutang,
+                    'tgl' => $today,
+                    'voucher_no' => $voucherNo,
+                    'name' => $proposal->pemohon,
+                    'description' => 'Advance for: ' . $proposal->judul_proposal . ' (' . $detail->place_code . ')',
+                    'nilai_idr' => $amountIdr,
+                    'nilai_usd' => $amountUsd,
+                    'status' => 'pending',
+                ]);
+
+                $results['unliquidated_entries'][] = [
+                    'id' => $unliquidatedEntry->id_unliquidate,
+                    'voucher_no' => $voucherNo,
+                    'nilai_idr' => $amountIdr,
+                    'nilai_usd' => $amountUsd,
                 ];
             }
 
@@ -130,6 +156,7 @@ class ProposalSettlementService
                 'budget_updates' => count($results['budget_updates']),
                 'bank_entries' => count($results['bank_entries']),
                 'receivable_entries' => count($results['receivable_entries']),
+                'unliquidated_entries' => count($results['unliquidated_entries']),
             ]);
 
         } catch (\Exception $e) {
@@ -145,6 +172,33 @@ class ProposalSettlementService
         }
 
         return $results;
+    }
+
+    /**
+     * Generate voucher number format: YYYY/MM/PROJ/001
+     * Sesuai dengan PHP native finance_functions.php:8-33
+     */
+    private function generateVoucherNo(string $projectCode, int $piutangHeaderId): string
+    {
+        $year = date('Y');
+        $month = date('m');
+        $prefix = "{$year}/{$month}/{$projectCode}/";
+        
+        // Get last voucher number for this prefix
+        $lastVoucher = BukuPiutangUnliquidated::where('voucher_no', 'like', $prefix . '%')
+            ->orderBy('voucher_no', 'desc')
+            ->first();
+        
+        $nextNum = 1;
+        if ($lastVoucher) {
+            $lastNo = $lastVoucher->voucher_no;
+            $numPart = substr($lastNo, strlen($prefix));
+            if (is_numeric($numPart)) {
+                $nextNum = intval($numPart) + 1;
+            }
+        }
+        
+        return $prefix . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
     }
 
     /**

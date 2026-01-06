@@ -14,6 +14,7 @@ use App\Http\Controllers\Finance\ProjectController;
 use App\Http\Controllers\Finance\ExpenseCodeController;
 use App\Http\Controllers\Finance\DonorController;
 use App\Http\Controllers\BankBookController;
+use App\Http\Controllers\BukuBankExportController;
 use App\Http\Controllers\ReceivableController;
 use App\Http\Controllers\DonorReportController;
 use App\Http\Controllers\BudgetController;
@@ -137,7 +138,8 @@ Route::middleware('auth')->group(function () {
         // Buku Bank
         Route::get('/bank', [BankBookController::class, 'index'])->name('bank.index');
         Route::get('/bank/{id}', [BankBookController::class, 'show'])->name('bank.show');
-        Route::get('/bank/export/excel', [BankBookController::class, 'exportExcel'])->name('bank.export');
+        // GAP-002 FIX: Export Excel dengan parameter ID (sesuai PHP native export_bank_excel.php)
+        Route::get('/bank/{id}/export-excel', [BukuBankExportController::class, 'exportExcel'])->name('bank.export');
         
         // Buku Piutang
         Route::get('/receivables', [ReceivableController::class, 'index'])->name('receivables.index');
