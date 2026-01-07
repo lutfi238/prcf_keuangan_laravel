@@ -369,4 +369,4 @@ This project is proprietary software for PRCF Indonesia.
 
 ## 👨‍💻 Development
 
-Dibuat dengan ❤️ untuk PRCF Indonesia
+Dibuat untuk PRCF Indonesia
