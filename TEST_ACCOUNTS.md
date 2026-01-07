@@ -2,8 +2,8 @@
 
 ## Login Credentials
 
-| Email             | Password        | Role                       | Akses                           |
-| ----------------- | --------------- | -------------------------- | ------------------------------- |
+| Email           | Password      | Role                 | Akses                           |
+| --------------- | ------------- | -------------------- | ------------------------------- |
 | `admin@prcf.id` | `password123` | **Admin**            | Full access, user management    |
 | `fm@prcf.id`    | `password123` | **Finance Manager**  | Approve proposals & reports     |
 | `sa@prcf.id`    | `password123` | **Staff Accountant** | Verify reports, financial books |
