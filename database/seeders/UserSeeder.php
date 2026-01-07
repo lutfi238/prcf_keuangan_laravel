@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         // Create Admin user
         User::create([
             'nama' => 'Administrator',
-            'email' => 'admin@prcf.or.id',
+            'email' => 'admin@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::Admin,
             'status' => 'active',
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         // Create Finance Manager
         User::create([
             'nama' => 'Finance Manager',
-            'email' => 'fm@prcf.or.id',
+            'email' => 'fm@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::FinanceManager,
             'status' => 'active',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         // Create Director
         User::create([
             'nama' => 'Direktur PRCF',
-            'email' => 'direktur@prcf.or.id',
+            'email' => 'direktur@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::Direktur,
             'status' => 'active',
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
         // Create Project Manager
         User::create([
             'nama' => 'Project Manager',
-            'email' => 'pm@prcf.or.id',
+            'email' => 'pm@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::ProjectManager,
             'status' => 'active',
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
         // Create Staff Accountant
         User::create([
             'nama' => 'Staff Accountant',
-            'email' => 'sa@prcf.or.id',
+            'email' => 'sa@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::StaffAccountant,
             'status' => 'active',
@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
         // Create additional test users
         User::create([
             'nama' => 'PM Kalimantan',
-            'email' => 'pm.kalimantan@prcf.or.id',
+            'email' => 'pm.kalimantan@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::ProjectManager,
             'status' => 'active',
@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama' => 'SA Junior',
-            'email' => 'sa.junior@prcf.or.id',
+            'email' => 'sa.junior@prcf.id',
             'password' => Hash::make('password123'),
             'role' => UserRole::StaffAccountant,
             'status' => 'active',

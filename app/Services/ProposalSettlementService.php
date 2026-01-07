@@ -12,15 +12,41 @@ use App\Models\Proposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * ProposalSettlementService
+ *
+ * Handles the financial settlement when a proposal is approved by Finance Manager.
+ * This creates the corresponding entries in:
+ * - Bank Book (money out)
+ * - Piutang/Receivable Book (PM owes)
+ * - Unliquidated tracking
+ *
+ * @see pages/proposals/review_proposal_fm.php di PHP native
+ */
 class ProposalSettlementService
 {
+    protected VoucherService $voucherService;
+
+    public function __construct(?VoucherService $voucherService = null)
+    {
+        $this->voucherService = $voucherService ?? new VoucherService();
+    }
+
     /**
      * Process proposal settlement when FM approves
-     * 
-     * This will:
-     * 1. Deduct budget from ProjectCodeBudget (used_usd/used_idr)
-     * 2. Create Bank Book entry (money out = credit)
-     * 3. Create Receivable entry (PM owes = debit)
+     *
+     * Langkah-langkah (sesuai PHP native review_proposal_fm.php:34-143):
+     * 1. Get/Create Bank Header dan Piutang Header
+     * 2. Untuk setiap budget detail:
+     *    a. Update budget used amount
+     *    b. Insert buku_bank_detail (credit = money out)
+     *    c. Insert buku_piutang_detail (debit = PM owes)
+     *    d. Insert buku_piutang_unliquidated (tracking)
+     *    e. Update header balances
+     * 3. Update proposal status
+     *
+     * @param Proposal $proposal
+     * @return array Results with success status, entries created, and any errors
      */
     public function processApproval(Proposal $proposal): array
     {
@@ -100,8 +126,9 @@ class ProposalSettlementService
                 ];
 
                 // 3. Create Receivable detail entry (PM owes = debit)
-                // Generate voucher number format: YYYY/MM/PROJ/001 (sesuai PHP native)
-                $voucherNo = $this->generateVoucherNo($proposal->kode_proyek, $receivableHeader->id_piutang);
+                // Generate voucher number via VoucherService (single source of truth)
+                // Format: YYYY/MM/PROJ/001 (sesuai PHP native finance_functions.php)
+                $voucherNo = $this->voucherService->generatePiutangVoucher($proposal->kode_proyek, $today);
                 
                 $receivableDetail = BukuPiutangDetail::create([
                     'id_piutang' => $receivableHeader->id_piutang,
@@ -172,33 +199,6 @@ class ProposalSettlementService
         }
 
         return $results;
-    }
-
-    /**
-     * Generate voucher number format: YYYY/MM/PROJ/001
-     * Sesuai dengan PHP native finance_functions.php:8-33
-     */
-    private function generateVoucherNo(string $projectCode, int $piutangHeaderId): string
-    {
-        $year = date('Y');
-        $month = date('m');
-        $prefix = "{$year}/{$month}/{$projectCode}/";
-        
-        // Get last voucher number for this prefix
-        $lastVoucher = BukuPiutangUnliquidated::where('voucher_no', 'like', $prefix . '%')
-            ->orderBy('voucher_no', 'desc')
-            ->first();
-        
-        $nextNum = 1;
-        if ($lastVoucher) {
-            $lastNo = $lastVoucher->voucher_no;
-            $numPart = substr($lastNo, strlen($prefix));
-            if (is_numeric($numPart)) {
-                $nextNum = intval($numPart) + 1;
-            }
-        }
-        
-        return $prefix . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
     }
 
     /**

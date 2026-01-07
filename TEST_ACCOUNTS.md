@@ -2,13 +2,13 @@
 
 ## Login Credentials
 
-| Email           | Password   | Role                 | Akses                           |
-| --------------- | ---------- | -------------------- | ------------------------------- |
-| `admin@prcf.id` | `password` | **Admin**            | Full access, user management    |
-| `fm@prcf.id`    | `password` | **Finance Manager**  | Approve proposals & reports     |
-| `sa@prcf.id`    | `password` | **Staff Accountant** | Verify reports, financial books |
-| `pm@prcf.id`    | `password` | **Project Manager**  | Create proposals & reports      |
-| `dir@prcf.id`   | `password` | **Direktur**         | View dashboard & reports        |
+| Email             | Password        | Role                       | Akses                           |
+| ----------------- | --------------- | -------------------------- | ------------------------------- |
+| `admin@prcf.id` | `password123` | **Admin**            | Full access, user management    |
+| `fm@prcf.id`    | `password123` | **Finance Manager**  | Approve proposals & reports     |
+| `sa@prcf.id`    | `password123` | **Staff Accountant** | Verify reports, financial books |
+| `pm@prcf.id`    | `password123` | **Project Manager**  | Create proposals & reports      |
+| `dir@prcf.id`   | `password123` | **Direktur**         | View dashboard & reports        |
 
 ---
 

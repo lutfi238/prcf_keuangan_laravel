@@ -63,6 +63,7 @@
         </button>
     </form>
     
+    @if(\App\Models\SystemSetting::isRegistrationEnabled())
     <div class="mt-6 text-center border-t pt-6">
         <p class="text-gray-600 text-sm">
             Belum punya akun?
@@ -71,5 +72,6 @@
             </a>
         </p>
     </div>
+    @endif
 </div>
 @endsection

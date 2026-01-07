@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
             'active' => \App\Http\Middleware\EnsureUserActive::class,
+            'registration' => \App\Http\Middleware\CheckRegistration::class,
         ]);
         $middleware->append(\App\Http\Middleware\LogActivity::class);
     })

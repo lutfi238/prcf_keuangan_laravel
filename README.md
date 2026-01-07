@@ -1,66 +1,372 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PRCF Keuangan
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white" alt="Alpine.js">
 </p>
 
-## About Laravel
+Sistem manajemen keuangan proyek untuk **People Resources and Conservation Foundation (PRCF)** Indonesia. Aplikasi ini dirancang untuk mengotomatisasi alur kerja keuangan mulai dari pengajuan proposal, pencatatan transaksi bank, manajemen piutang, hingga pelaporan keuangan kepada donor.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Daftar Isi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   [Fitur Utama](#-fitur-utama)
+-   [Tech Stack](#-tech-stack)
+-   [Struktur Role & Akses](#-struktur-role--akses)
+-   [Workflow Sistem](#-workflow-sistem)
+-   [Instalasi](#-instalasi)
+-   [Konfigurasi](#-konfigurasi)
+-   [Menjalankan Aplikasi](#-menjalankan-aplikasi)
+-   [Test Accounts](#-test-accounts)
+-   [Struktur Database](#-struktur-database)
+-   [API Endpoints](#-api-endpoints)
+-   [Deployment](#-deployment)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ✨ Fitur Utama
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📄 Manajemen Proposal
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   Pembuatan proposal dengan detail budget per village dan expense code
+-   Upload dokumen TOR (Terms of Reference) dan file budget
+-   Workflow approval: Draft → Submitted → Approved/Rejected
+-   Dual currency support (USD & IDR) dengan exchange rate
 
-## Laravel Sponsors
+### 💰 Buku Bank (Bank Book)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   Pencatatan transaksi debit/kredit per proyek
+-   Tracking saldo bulanan dengan carry-forward otomatis
+-   Export ke Excel untuk pelaporan
 
-### Premium Partners
+### 📊 Buku Piutang (Receivables)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+-   Tracking dana unliquidated per Project Manager
+-   Manajemen penyelesaian piutang
+-   Aging analysis untuk monitoring
 
-## Contributing
+### 📈 Laporan Keuangan
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   Pembuatan laporan dengan detail pengeluaran
+-   Workflow verifikasi (SA) dan approval (FM)
+-   Attachment bukti pengeluaran (nota/invoice)
 
-## Code of Conduct
+### 🌍 Laporan Donor
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   Laporan khusus format donor
+-   Compile financial & activity summary
+-   Tracking deadline pelaporan
 
-## Security Vulnerabilities
+### 👥 Manajemen User
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   Multi-role access control
+-   OTP verification untuk login
+-   Activity logging untuk audit trail
 
-## License
+### ⚙️ System Control (Admin)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Toggle maintenance mode
+-   Toggle registration
+-   System health monitoring
+
+---
+
+## 🛠 Tech Stack
+
+| Layer              | Technology                                          |
+| ------------------ | --------------------------------------------------- |
+| **Backend**        | Laravel 11.x, PHP 8.2+                              |
+| **Database**       | SQLite (development), MySQL/PostgreSQL (production) |
+| **Frontend**       | Blade Templates, Tailwind CSS (CDN), Alpine.js      |
+| **Authentication** | Laravel Auth dengan OTP verification                |
+| **File Storage**   | Laravel Storage (local)                             |
+
+---
+
+## 👥 Struktur Role & Akses
+
+| Role                 | Kode  | Akses Utama                                                       |
+| -------------------- | ----- | ----------------------------------------------------------------- |
+| **Administrator**    | Admin | Kelola user, activity log, system control                         |
+| **Finance Manager**  | FM    | Approve proposal & laporan, kelola master data, budget management |
+| **Staff Accountant** | SA    | Verifikasi laporan, akses buku bank & piutang                     |
+| **Project Manager**  | PM    | Buat proposal & laporan kegiatan                                  |
+| **Direktur**         | DIR   | Dashboard eksekutif & oversight                                   |
+
+### Matriks Akses Fitur
+
+| Fitur                | Admin | FM  | SA  | PM  | DIR |
+| -------------------- | :---: | :-: | :-: | :-: | :-: |
+| Dashboard            |  ✅   | ✅  | ✅  | ✅  | ✅  |
+| Proposal (Buat)      |  ❌   | ❌  | ❌  | ✅  | ❌  |
+| Proposal (Approve)   |  ❌   | ✅  | ❌  | ❌  | ❌  |
+| Laporan (Buat)       |  ❌   | ❌  | ❌  | ✅  | ❌  |
+| Laporan (Verifikasi) |  ❌   | ❌  | ✅  | ❌  | ❌  |
+| Laporan (Approve)    |  ❌   | ✅  | ❌  | ❌  | ❌  |
+| Buku Bank            |  ❌   | ✅  | ✅  | ❌  | ❌  |
+| Buku Piutang         |  ❌   | ✅  | ✅  | ❌  | ❌  |
+| Master Data          |  ❌   | ✅  | ❌  | ❌  | ❌  |
+| Kelola User          |  ✅   | ❌  | ❌  | ❌  | ❌  |
+| System Control       |  ✅   | ❌  | ❌  | ❌  | ❌  |
+
+---
+
+## 🔄 Workflow Sistem
+
+### Proposal Workflow
+
+```
+┌─────────┐     ┌───────────┐     ┌────────────┐     ┌──────────┐
+│  Draft  │────▶│ Submitted │────▶│ ApprovedFM │ or  │ Rejected │
+└─────────┘     └───────────┘     └────────────┘     └──────────┘
+     │               │                   │
+     │               │                   ▼
+   [PM]            [PM]          [Budget Allocated]
+  Create          Submit              [Bank Debit]
+                                  [Piutang Created]
+```
+
+### Laporan Keuangan Workflow
+
+```
+┌─────────┐     ┌───────────┐     ┌──────────┐     ┌──────────┐
+│  Draft  │────▶│ Submitted │────▶│ Verified │────▶│ Approved │
+└─────────┘     └───────────┘     └──────────┘     └──────────┘
+     │               │                 │                │
+   [PM]            [PM]              [SA]             [FM]
+  Create          Submit           Verify           Approve
+                                      │
+                                      ▼
+                              ┌────────────────┐
+                              │Revision Request│
+                              └────────────────┘
+```
+
+---
+
+## 🚀 Instalasi
+
+### Prasyarat
+
+-   PHP >= 8.2
+-   Composer
+-   Node.js & NPM (untuk asset compilation, opsional)
+-   SQLite / MySQL / PostgreSQL
+
+### Langkah Instalasi
+
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd prcf_laravel
+
+# 2. Install dependencies
+composer install
+
+# 3. Copy environment file
+cp .env.example .env
+
+# 4. Generate application key
+php artisan key:generate
+
+# 5. Konfigurasi database di .env
+# Untuk SQLite (default):
+# DB_CONNECTION=sqlite
+# DB_DATABASE=/absolute/path/to/database.sqlite
+
+# 6. Jalankan migrasi dan seeder
+php artisan migrate --seed
+
+# 7. Buat symbolic link untuk storage
+php artisan storage:link
+```
+
+---
+
+## ⚙️ Konfigurasi
+
+### Environment Variables (.env)
+
+```env
+APP_NAME="PRCF Keuangan"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8001
+
+# Database
+DB_CONNECTION=sqlite
+DB_DATABASE=/path/to/database/database.sqlite
+
+# Mail (untuk OTP)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+---
+
+## ▶️ Menjalankan Aplikasi
+
+### Development Server
+
+```bash
+# Jalankan server Laravel
+php artisan serve --port=8001
+
+# Akses di browser
+http://localhost:8001
+```
+
+### Dengan Cloudflare Tunnel (Remote Access)
+
+```bash
+# 1. Jalankan Laravel server
+php artisan serve --port=8001
+
+# 2. Jalankan Cloudflare Tunnel
+cloudflared tunnel run prcf-tunnel
+
+# 3. Akses via domain
+https://prcf-test.indevs.in
+```
+
+---
+
+## 🔐 Test Accounts
+
+| Email           | Password      | Role             |
+| --------------- | ------------- | ---------------- |
+| `admin@prcf.id` | `password123` | Administrator    |
+| `fm@prcf.id`    | `password123` | Finance Manager  |
+| `sa@prcf.id`    | `password123` | Staff Accountant |
+| `pm@prcf.id`    | `password123` | Project Manager  |
+| `dir@prcf.id`   | `password123` | Direktur         |
+
+> **Note:** Semua akun test sudah di-seed dan siap digunakan.
+
+---
+
+## 🗄️ Struktur Database
+
+### Entity Relationship Overview
+
+```
+┌────────────┐     ┌──────────────┐     ┌─────────────────────┐
+│   Users    │     │    Proyek    │     │ ProjectCodeBudget   │
+├────────────┤     ├──────────────┤     ├─────────────────────┤
+│ id_user    │     │ kode_proyek  │◄───▶│ kode_proyek         │
+│ nama       │     │ nama_proyek  │     │ id_village          │
+│ role       │     │ donor        │     │ exp_code            │
+│ email      │     │ status       │     │ budget_usd/idr      │
+│ status     │     │ periode      │     │ used_usd/idr        │
+└────────────┘     └──────────────┘     └─────────────────────┘
+      │                   │
+      │                   ▼
+      │            ┌──────────────┐     ┌─────────────────────┐
+      │            │   Proposal   │────▶│ ProposalBudgetDetail│
+      │            ├──────────────┤     ├─────────────────────┤
+      └───────────▶│ id_proposal  │     │ id_village          │
+                   │ kode_proyek  │     │ exp_code            │
+                   │ status       │     │ amount_usd/idr      │
+                   │ approved_by  │     └─────────────────────┘
+                   └──────────────┘
+```
+
+### Models
+
+| Model                   | Table                   | Primary Key       | Description            |
+| ----------------------- | ----------------------- | ----------------- | ---------------------- |
+| `User`                  | users                   | id_user           | Data pengguna sistem   |
+| `Proyek`                | proyek                  | kode_proyek       | Data proyek            |
+| `Village`               | villages                | id                | Data desa/lokasi       |
+| `Donor`                 | donors                  | id_donor          | Data donor             |
+| `ExpenseCode`           | expense_codes           | id                | Kode pengeluaran       |
+| `ProjectCodeBudget`     | project_code_budgets    | id                | Alokasi budget         |
+| `Proposal`              | proposals               | id_proposal       | Proposal pengajuan     |
+| `ProposalBudgetDetail`  | proposal_budget_details | id                | Detail budget proposal |
+| `BukuBankHeader`        | buku_bank_header        | id_bank_header    | Header buku bank       |
+| `BukuBankDetail`        | buku_bank_detail        | id_bank_detail    | Detail transaksi bank  |
+| `BukuPiutangHeader`     | buku_piutang_header     | id_piutang_header | Header buku piutang    |
+| `BukuPiutangDetail`     | buku_piutang_detail     | id_piutang_detail | Detail piutang         |
+| `LaporanKeuanganHeader` | laporan_keuangan_header | id                | Header laporan         |
+| `LaporanKeuanganDetail` | laporan_keuangan_detail | id                | Detail laporan         |
+| `LaporanDonor`          | laporan_donor           | id                | Laporan donor          |
+| `Notification`          | notifications           | id                | Notifikasi user        |
+| `ActivityLog`           | activity_logs           | id                | Log aktivitas          |
+| `SystemSetting`         | system_settings         | id                | Pengaturan sistem      |
+
+---
+
+## 📁 Struktur Direktori
+
+```
+prcf_laravel/
+├── app/
+│   ├── Enums/              # Status enums (UserRole, ProposalStatus, etc.)
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/      # Admin controllers
+│   │   │   ├── Auth/       # Authentication controllers
+│   │   │   └── Finance/    # Finance manager controllers
+│   │   └── Middleware/     # Custom middleware
+│   ├── Models/             # Eloquent models
+│   └── Services/           # Business logic services
+├── database/
+│   ├── migrations/         # Database migrations
+│   ├── seeders/           # Database seeders
+│   └── database.sqlite    # SQLite database
+├── resources/
+│   └── views/
+│       ├── layouts/       # Layout templates
+│       ├── auth/          # Authentication views
+│       ├── proposals/     # Proposal views
+│       ├── reports/       # Report views
+│       └── admin/         # Admin views
+├── routes/
+│   └── web.php           # Web routes
+└── docs/                  # Documentation
+```
+
+---
+
+## 🌐 Deployment
+
+### Cloudflare Tunnel Setup
+
+Lihat dokumentasi lengkap di [docs/CLOUDFLARE_TUNNEL_SETUP.md](docs/CLOUDFLARE_TUNNEL_SETUP.md)
+
+### Production Checklist
+
+-   [ ] Set `APP_ENV=production`
+-   [ ] Set `APP_DEBUG=false`
+-   [ ] Configure production database (MySQL/PostgreSQL)
+-   [ ] Set up proper mail configuration
+-   [ ] Configure file storage (S3/cloud storage)
+-   [ ] Run `php artisan config:cache`
+-   [ ] Run `php artisan route:cache`
+-   [ ] Run `php artisan view:cache`
+
+---
+
+## 📚 Dokumentasi Tambahan
+
+-   [Cloudflare Tunnel Setup](docs/CLOUDFLARE_TUNNEL_SETUP.md)
+-   [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
+-   [Multi-Agent Architecture](agents.md)
+
+---
+
+## 📄 License
+
+This project is proprietary software for PRCF Indonesia.
+
+---
+
+## 👨‍💻 Development
+
+Dibuat dengan ❤️ untuk PRCF Indonesia

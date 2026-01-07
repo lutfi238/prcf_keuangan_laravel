@@ -40,9 +40,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/verify-otp', [LoginController::class, 'verifyOtp'])->name('auth.verify-otp.submit');
     Route::post('/resend-otp', [LoginController::class, 'resendOtp'])->name('auth.resend-otp');
     
-    // Registration routes
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+    // Registration routes (protected by registration middleware)
+    Route::middleware('registration')->group(function () {
+        Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+    });
     
     // Forgot password routes
     Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm'])->name('password.request');
